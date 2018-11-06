@@ -1,0 +1,15 @@
+syntax = "proto3";
+option go_package = "proto";
+package ripper.proto;
+
+message PaginateParams {
+  string parent = 1;
+  // The size of resources per page you want. Default value is **15**.
+  int32 page_size = 2;
+  // The pagination token received from server in last request.
+  string page_token = 3;
+  // The order of the resources you want.
+  string order_by = 4;
+  // The filter parameters.
+  string filter = 5;
+}
