@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-var p, _ = NewPaginateParams(1, "", 15, "", "")
+var p = NewPaginateParams(1, "", 15, "", "")
 var pageToken, _ = encodeToPageToken(p)
 
 func Test_validatePageToken(t *testing.T) {
@@ -20,7 +20,7 @@ func Test_validatePageToken(t *testing.T) {
 	}{
 		{"pageToken should be corresponding to the PaginateParams", args{p, pageToken}, false},
 		{"pageToken should not be corresponding to different PaginateParams", func() args {
-			ap, _ := NewPaginateParams(1, "", 150, "name desc", "")
+			ap := NewPaginateParams(1, "", 150, "name desc", "")
 			return args{ap, pageToken}
 		}(), true},
 		{"arbitrary pageToken should be invalid", func() args {
@@ -76,7 +76,6 @@ func Test_decodePageToken(t *testing.T) {
 		wantP   *PaginateParams
 		wantErr bool
 	}{
-		{"pageToken should not be empty", args{""}, nil, true},
 		{"encode and decode should be interconvertible", func() args {
 			pageToken, _ := encodeToPageToken(p)
 			return args{pageToken}

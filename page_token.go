@@ -11,11 +11,11 @@ import (
 func validatePageToken(p *PaginateParams, pageToken string) error {
 	tokenParams, err := decodePageToken(pageToken)
 	if err != nil {
-		return errors.Wrap(err, "fail to decode pageToken")
+		return err
 	}
 	p.Page = tokenParams.Page
 	if *p != *tokenParams {
-		return errors.New("the PaginateParams is not corresponding to the pageToken")
+		return errors.Wrap(newInvalidPageTokenError(), "the PaginateParams is not corresponding to the pageToken")
 	}
 	return nil
 }
@@ -25,7 +25,7 @@ func encodeToPageToken(p *PaginateParams) (s string, err error) {
 	enc := gob.NewEncoder(&b)
 	err = enc.Encode(p)
 	if err != nil {
-		err = errors.Wrap(err, "fail to encode the PaginateParams")
+		err = errors.Wrap(newInvalidPageTokenError(), err.Error())
 		return
 	}
 	s = base64.URLEncoding.EncodeToString(b.Bytes())
@@ -34,12 +34,11 @@ func encodeToPageToken(p *PaginateParams) (s string, err error) {
 
 func decodePageToken(pageToken string) (p *PaginateParams, err error) {
 	if pageToken == "" {
-		err = errors.New("pageToken can't be empty")
-		return
+		panic("pageToken can't be empty")
 	}
 	byte, err := base64.URLEncoding.DecodeString(pageToken)
 	if err != nil {
-		err = errors.Wrap(err, "fail to decode base64")
+		err = errors.Wrap(newInvalidPageTokenError(), err.Error())
 		return
 	}
 	b := bytes.NewBuffer(byte)
@@ -47,7 +46,7 @@ func decodePageToken(pageToken string) (p *PaginateParams, err error) {
 	p = &PaginateParams{}
 	err = dec.Decode(p)
 	if err != nil {
-		err = errors.Wrap(err, "fail to decode gob")
+		err = errors.Wrap(newInvalidPageTokenError(), err.Error())
 		return
 	}
 	return

@@ -1,9 +1,5 @@
 package ripper
 
-import (
-	"github.com/pkg/errors"
-)
-
 const defaultPage = 1
 
 var defaultPageSize = 15
@@ -14,7 +10,6 @@ func Paginate(p *PaginateParams, pageToken string, totalSize int) (offset int, l
 	if pageToken != "" {
 		err = validatePageToken(p, pageToken)
 		if err != nil {
-			err = errors.Wrap(err, "invalid token")
 			return
 		}
 	}

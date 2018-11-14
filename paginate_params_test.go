@@ -16,25 +16,17 @@ func TestNewPaginateParams(t *testing.T) {
 		filter   string
 	}
 	tests := []struct {
-		name    string
-		args    args
-		wantP   *PaginateParams
-		wantErr bool
+		name string
+		args args
+		want *PaginateParams
 	}{
-		{"default page should be 1", args{pageSize: 15}, &PaginateParams{Page: 1, PageSize: 15}, false},
-		{"default pageSize should be 15", args{page: 1}, &PaginateParams{Page: 1, PageSize: 15}, false},
-		{"page should be larger than 0", args{page: -1, pageSize: 15}, nil, true},
-		{"pageSize should be larger than 0", args{page: 1, pageSize: -1}, nil, true},
+		{"default page should be 1", args{pageSize: 15}, &PaginateParams{Page: 1, PageSize: 15}},
+		{"default pageSize should be 15", args{page: 1}, &PaginateParams{Page: 1, PageSize: 15}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotP, err := NewPaginateParams(tt.args.page, tt.args.parent, tt.args.pageSize, tt.args.orderBy, tt.args.filter)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("NewPaginateParams() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(gotP, tt.wantP) {
-				t.Errorf("NewPaginateParams() = %v, want %v", gotP, tt.wantP)
+			if got := NewPaginateParams(tt.args.page, tt.args.parent, tt.args.pageSize, tt.args.orderBy, tt.args.filter); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("NewPaginateParams() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -55,7 +47,7 @@ func TestItop(t *testing.T) {
 				&proto.PaginateParams{Parent: "parents/1", PageSize: 15, PageToken: "page_token", OrderBy: "update_time", Filter: "name=@string"},
 			},
 			func() *PaginateParams {
-				p, _ := NewPaginateParams(1, "parents/1", 15, "update_time", "name=@string")
+				p := NewPaginateParams(1, "parents/1", 15, "update_time", "name=@string")
 				return p
 			}(),
 		},

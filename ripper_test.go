@@ -5,7 +5,7 @@ import (
 )
 
 func TestPaginate(t *testing.T) {
-	p, _ := NewPaginateParams(1, "", 15, "", "")
+	p := NewPaginateParams(1, "", 15, "", "")
 	totalSize := 15
 	limit, offset, nextPageToken, _ := paginate(p, totalSize)
 	type args struct {
@@ -22,7 +22,7 @@ func TestPaginate(t *testing.T) {
 		wantErr           bool
 	}{
 		{"pageToken could be empty string", args{p: p, pageToken: "", totalSize: 15}, limit, offset, nextPageToken, false},
-		{"there should be an error if pageToken is invalid", args{p: p, pageToken: "invalid token", totalSize: 15}, 0, 0, "", true},
+		{"there should be an error if pageToken is invalid", args{p: p, pageToken: "invalid pageToken", totalSize: 15}, 0, 0, "", true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

@@ -1,8 +1,6 @@
 package ripper
 
-import "github.com/pkg/errors"
-
-// IPaginateParams is a interface for request params.
+// IPaginateParams is an interface for paginate params.
 type IPaginateParams interface {
 	GetParent() string
 	GetPageSize() int32
@@ -21,40 +19,23 @@ type PaginateParams struct {
 }
 
 // NewPaginateParams returns a PaginateParams pointer.
-func NewPaginateParams(page int, parent string, pageSize int, orderBy string, filter string) (p *PaginateParams, err error) {
+func NewPaginateParams(page int, parent string, pageSize int, orderBy string, filter string) *PaginateParams {
 	if page == 0 {
 		page = defaultPage
 	}
 	if pageSize == 0 {
 		pageSize = defaultPageSize
 	}
-	if page < 0 {
-		err = errors.New("page must be larger than zero")
-		return
-	}
-	if pageSize < 0 {
-		err = errors.New("pageSize must be larger than zero")
-		return
-	}
-	p = &PaginateParams{
+	return &PaginateParams{
 		page,
 		parent,
 		pageSize,
 		orderBy,
 		filter,
 	}
-	return
 }
 
 // Itop converts IPaginateParams to PaginateParams.
 func Itop(i IPaginateParams) (p *PaginateParams) {
-	parent := i.GetParent()
-	pageSize := i.GetPageSize()
-	orderBy := i.GetOrderBy()
-	filter := i.GetFilter()
-	p, err := NewPaginateParams(defaultPage, parent, int(pageSize), orderBy, filter)
-	if err != nil {
-		panic("fail to convert IPaginateParams to PaginateParams")
-	}
-	return
+	return NewPaginateParams(defaultPage, i.GetParent(), int(i.GetPageSize()), i.GetOrderBy(), i.GetFilter())
 }
