@@ -13,8 +13,8 @@ var errCodeToField = map[int]string{
 }
 
 var errCodeToMessage = map[int]string{
-	errCodeNegetivePage:     "page must be larger than zero",
-	errCodeNegetivePageSize: "page_size must be larger than zero",
+	errCodeNegetivePage:     "page must be greater than zero",
+	errCodeNegetivePageSize: "page_size must be greater than zero",
 	errCodeInvalidPageToken: "page_token is invalid",
 }
 
