@@ -3,7 +3,7 @@ package ripper
 const defaultPage = 1
 
 var defaultPageSize = 15
-var maxPageSize = 15
+var maxPageSize = 100
 
 // Paginate the results by page_token, returns offset, limit and next_page_token.
 func Paginate(p *PaginateParams, pageToken string, totalSize int) (offset int, limit int, nextPageToken string, err error) {
@@ -25,7 +25,7 @@ func SetDefaultPageSize(pageSize int) bool {
 	return true
 }
 
-// SetMaxPageSize sets the max limitation of pageSize.
+// SetMaxPageSize sets the max limit to pageSize.
 func SetMaxPageSize(pageSize int) bool {
 	if pageSize < defaultPageSize {
 		return false

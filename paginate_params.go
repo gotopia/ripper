@@ -26,6 +26,9 @@ func NewPaginateParams(page int, parent string, pageSize int, orderBy string, fi
 	if pageSize == 0 {
 		pageSize = defaultPageSize
 	}
+	if pageSize > maxPageSize {
+		pageSize = maxPageSize
+	}
 	return &PaginateParams{
 		page,
 		parent,

@@ -22,6 +22,7 @@ func TestNewPaginateParams(t *testing.T) {
 	}{
 		{"default page should be 1", args{pageSize: 15}, &PaginateParams{Page: 1, PageSize: 15}},
 		{"default pageSize should be 15", args{page: 1}, &PaginateParams{Page: 1, PageSize: 15}},
+		{"pageSize should not be greater than maxPageSize", args{pageSize: maxPageSize + 1}, &PaginateParams{Page: 1, PageSize: maxPageSize}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
