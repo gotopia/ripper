@@ -2,7 +2,7 @@ package ripper
 
 import "github.com/pkg/errors"
 
-func paginate(p *PaginateParams, totalSize int) (offset int, limit int, nextPageToken string, err error) {
+func paginate(p *PaginateParams, totalSize int64) (offset int, limit int, nextPageToken string, err error) {
 	if p.Page <= 0 {
 		err = errors.WithStack(newNegetivePageError())
 		return
@@ -24,6 +24,6 @@ func paginate(p *PaginateParams, totalSize int) (offset int, limit int, nextPage
 	return
 }
 
-func hasNextPage(page int, pageSize int, totalSize int) bool {
-	return page*pageSize < totalSize
+func hasNextPage(page int, pageSize int, totalSize int64) bool {
+	return int64(page)*int64(pageSize) < totalSize
 }

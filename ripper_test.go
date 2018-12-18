@@ -6,12 +6,12 @@ import (
 
 func TestPaginate(t *testing.T) {
 	p := NewPaginateParams(1, "", 15, "", "")
-	totalSize := 15
+	totalSize := int64(15)
 	limit, offset, nextPageToken, _ := paginate(p, totalSize)
 	type args struct {
 		p         *PaginateParams
 		pageToken string
-		totalSize int
+		totalSize int64
 	}
 	tests := []struct {
 		name              string

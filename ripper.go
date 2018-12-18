@@ -6,7 +6,7 @@ var defaultPageSize = 15
 var maxPageSize = 100
 
 // Paginate the results by page_token, returns offset, limit and next_page_token.
-func Paginate(p *PaginateParams, pageToken string, totalSize int) (offset int, limit int, nextPageToken string, err error) {
+func Paginate(p *PaginateParams, pageToken string, totalSize int64) (offset int, limit int, nextPageToken string, err error) {
 	if pageToken != "" {
 		err = validatePageToken(p, pageToken)
 		if err != nil {

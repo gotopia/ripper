@@ -7,7 +7,7 @@ import (
 func Test_paginate(t *testing.T) {
 	type args struct {
 		p         *PaginateParams
-		totalSize int
+		totalSize int64
 	}
 	tests := []struct {
 		name              string
@@ -45,7 +45,7 @@ func Test_hasNextPage(t *testing.T) {
 	type args struct {
 		page      int
 		pageSize  int
-		totalSize int
+		totalSize int64
 	}
 	tests := []struct {
 		name string
