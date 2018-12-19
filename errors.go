@@ -22,6 +22,7 @@ var errCodeToMessage = map[int]string{
 type PaginationError interface {
 	error
 	Field() string
+	paginationError()
 }
 
 type paginationError struct {
@@ -35,6 +36,8 @@ func (e *paginationError) Error() string {
 func (e *paginationError) Field() string {
 	return errCodeToField[e.code]
 }
+
+func (*paginationError) paginationError() {}
 
 func newNegetivePageError() *paginationError {
 	return &paginationError{
